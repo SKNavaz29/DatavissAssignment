@@ -1,0 +1,126 @@
+<div class="dashboard">       
+      <header>
+        <mat-toolbar >
+          <mat-toolbar-row>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon >menu</mat-icon>
+            </button>
+            <h1>Energyviss / Live Dashboard</h1>
+            <span class="menuicons">
+              <mat-icon>refresh</mat-icon>
+              <mat-icon>alarm</mat-icon>
+              <mat-icon>account_box</mat-icon>
+            </span>
+          </mat-toolbar-row>          
+        </mat-toolbar>    
+        
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>Home</mat-icon>
+            <span>Home Page</span>
+          </button>          
+        </mat-menu>
+
+      </header>
+      <div class="body">
+
+        <mat-card class="card-1">
+          <mat-grid-list cols="4" rowHeight="60px">
+              <mat-grid-tile colspan="1">             
+                  <span>FLOOR: </span>
+                  <mat-form-field >
+                      <mat-label>Floor</mat-label>                    
+                      <mat-select [formControl]="floors" multiple>
+                        <mat-select-trigger>
+                          {{floors.value?.[0] || ''}}
+                          <span *ngIf="(floors.value?.length || 0) > 1">
+                            (+{{(floors.value?.length || 0) - 1}} {{floors.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let floor of floorsList" [value]="floor">{{floor}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </mat-grid-tile> 
+              <mat-grid-tile colspan="1">SECTION: 
+                <mat-form-field>
+                  <mat-label>Section</mat-label>
+                  <mat-select [(ngModel)]="labOption">
+                    <mat-option *ngFor="let option of options1" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </mat-grid-tile>
+      
+              <mat-grid-tile colspan="1">VIEW:
+  
+                  <mat-form-field>
+                      <mat-label>Individual</mat-label>
+                      <mat-select [(ngModel)]="viewOption">
+                        <mat-option *ngFor="let option of options" [value]="option.value">
+                          {{ option.label }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+  
+              </mat-grid-tile>
+              <mat-grid-tile colspan="1">
+                  <span>METER: </span>
+                  <mat-form-field>
+                      <mat-label>METER</mat-label>                    
+                      <mat-select [formControl]="meters" multiple>
+                      <mat-select-trigger>
+                          {{floors.value?.[0] || ''}}
+                          <span *ngIf="(meters.value?.length || 0) > 1" >
+                          (+{{(floors.value?.length || 0) - 1}} {{floors.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let meter of MetersList" [value]="meter">{{meter}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </mat-grid-tile> 
+             </mat-grid-list>
+        </mat-card>
+
+        <mat-card class="card-2">
+          <mat-grid-list cols="4" rowHeight="40px">
+          <mat-card-content>
+              <mat-grid-tile colspan="1"><span>ENERGY: </span><span class="text">155,620 kWh</span></mat-grid-tile>
+              <mat-grid-tile colspan="1"><span>LAST UPDATED: </span><span class="text">{{formattedDateTime}}</span></mat-grid-tile>
+              <mat-grid-tile colspan="2"><span>NEXT HOUR PREDICTED ENERGY: </span><span class="text">156,620 kWh</span></mat-grid-tile>            
+          </mat-card-content>
+          </mat-grid-list>
+        </mat-card>
+  
+  
+      <mat-card class="card-3">
+          <mat-card-header>
+              KEY PARAMETERS
+          </mat-card-header>
+        <mat-grid-list cols="5" rowHeight="150px">
+          <mat-grid-tile *ngFor="let values of gauges">
+            <mat-card class="gauge">           
+              <mat-card-content role="gauge" style="--value: {{this.values.value}}">
+                 <span>{{this.values.value}}</span>
+              </mat-card-content>            
+              <mat-card-title>
+                 {{this.values.title}}
+              </mat-card-title>
+            </mat-card> 
+          </mat-grid-tile>
+        </mat-grid-list> 
+      </mat-card>
+  
+      <mat-grid-list col="2" class="card-4">
+          <mat-card id="chart1">
+              <canvas id="powerFactor" width="200" height="100"></canvas>
+            </mat-card>
+            
+            <mat-card id="chart2">
+              <canvas id="powerChart" width="200" height="100"></canvas>
+            </mat-card>
+      </mat-grid-list>
+      </div>                  
+
+</div>
